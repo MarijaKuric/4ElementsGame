@@ -107,6 +107,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8dc1adcec7209f45b8b27ca4692b123, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
+  enemyPrefab: {fileID: 0}
+  minEnemies: 1
+  maxEnemies: 5
+  SpawnAreaMin: {x: -8, y: -4}
+  SpawnAreaMax: {x: 8, y: 4}
+  firstSpawnDelay: 10
+  AfterBattleSpawnDelay: 3
 --- !u!61 &2887783832573291769
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -179,7 +186,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &4699568129904183018
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,8 +7,8 @@ public class EnemySpawner : MonoBehaviour
     public int minEnemies = 1;
     public int maxEnemies = 5;
 
-    public Vector2 SpawnAreaMin = new Vector2(-8, -4);
-    public Vector2 SpawnAreaMax = new Vector2(8, 4);
+    public Vector2 SpawnAreaMin = new Vector2(-18, -10);
+    public Vector2 SpawnAreaMax = new Vector2(19, 0);
 
     //prikazano u inspectoru za lakse mjenjanje
     public float firstSpawnDelay = 10f;
@@ -39,6 +39,7 @@ public class EnemySpawner : MonoBehaviour
             float y = Random.Range(SpawnAreaMin.y, SpawnAreaMax.y);
 
             Vector3 spawnPosition = new Vector3(x, y, 0);
+            Debug.Log("Spawning enemy at " + spawnPosition);
 
             Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
         }

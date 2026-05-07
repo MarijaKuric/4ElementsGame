@@ -16,16 +16,17 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
+        
         //gameObject.SetActive(false);           // neprijatelj nevidljiv na početku
         //Invoke("ShowEnemy", 10f);              // pojavi se nakon 10 sekundi
 
         if(GameState.justFinishedBattle){ 
             // vracanje is battle-a, spawnanje novih enemy-a
             GameState.justFinishedBattle = false;
-            Invoke("SpawnNeprijatelja", AfterBattleSpawnDelay);
+            Invoke("SpawnEnemies", AfterBattleSpawnDelay);
         }else{ 
             // fresh pocetak, cekanje 10 sekundi prije spawn-a
-            Invoke("SpawnNeprijatelja", firstSpawnDelay);
+            Invoke("SpawnEnemies", firstSpawnDelay);
         }
     }
 

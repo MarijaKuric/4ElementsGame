@@ -18,6 +18,7 @@ public class BattleSystem : MonoBehaviour
 
     bool inBattle = false;
     bool playerTurn = true;
+    bool playerWon = false;
     GameObject player;
 
     void Start()
@@ -88,21 +89,27 @@ public class BattleSystem : MonoBehaviour
         if (enemyHP <= 0)
         {
             statusText.text = "Pobijedio si!";
+            playerWon = true;
+            inBattle = false;
+            CancelInvoke();
             Invoke("EndBattle", 2f);
         }
-        if (playerHP <= 0)
+        else if (playerHP <= 0)
         {
             statusText.text = "Izgubio si...";
+            inBattle = false;
+            CancelInvoke();
             Invoke("EndBattle", 2f);
         }
     }
 
     void EndBattle()
     {
-        inBattle = false;
         battleUI.SetActive(false);
         player.GetComponent<PlayerMovement>().enabled = true;
-        gameObject.SetActive(false);   // neprijatelj nestane
+
+        if (playerWon)
+            Destroy(gameObject);
     }
 
     void UpdateUI()

@@ -432,10 +432,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 704629840}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dac1c99d153d9c24bb0691ec2ccd2137, type: 3}
+  m_Script: {fileID: 11500000, guid: bcc14b06439fb3e49b08ff2205a1647b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  speed: 5
+  speed: 2.5
 --- !u!1 &829892044
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,13 +480,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8dc1adcec7209f45b8b27ca4692b123, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  enemyPrefab: {fileID: 2379101656091519479, guid: bfd1e189841a6db449bcf23bd46d0a8c, type: 3}
-  minEnemies: 1
-  maxEnemies: 5
+  enemyPrefabLow: {fileID: 2379101656091519479, guid: bfd1e189841a6db449bcf23bd46d0a8c, type: 3}
+  enemyPrefabMid: {fileID: 2379101656091519479, guid: bfd1e189841a6db449bcf23bd46d0a8c, type: 3}
+  enemyPrefabHigh: {fileID: 2379101656091519479, guid: bfd1e189841a6db449bcf23bd46d0a8c, type: 3}
+  bossPrefab: {fileID: 2379101656091519479, guid: bfd1e189841a6db449bcf23bd46d0a8c, type: 3}
+  lowCount: 1
+  midCount: 1
+  highCount: 1
   SpawnAreaMin: {x: -18, y: -10}
   SpawnAreaMax: {x: 19, y: 0}
   firstSpawnDelay: 10
-  AfterBattleSpawnDelay: 3
 --- !u!1 &902980070
 GameObject:
   m_ObjectHideFlags: 0

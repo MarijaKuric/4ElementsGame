@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2117239707933004755}
   - component: {fileID: 8365269115842631636}
-  - component: {fileID: 484661147412507633}
   - component: {fileID: 2887783832573291769}
   - component: {fileID: 3508818129031028155}
   - component: {fileID: 4699568129904183018}
@@ -95,25 +94,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &484661147412507633
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2379101656091519479}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8dc1adcec7209f45b8b27ca4692b123, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  enemyPrefab: {fileID: 0}
-  minEnemies: 1
-  maxEnemies: 5
-  SpawnAreaMin: {x: -8, y: -4}
-  SpawnAreaMax: {x: 8, y: 4}
-  firstSpawnDelay: 10
-  AfterBattleSpawnDelay: 3
 --- !u!61 &2887783832573291769
 BoxCollider2D:
   m_ObjectHideFlags: 0

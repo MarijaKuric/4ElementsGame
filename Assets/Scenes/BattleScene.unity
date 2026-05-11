@@ -490,10 +490,6 @@ GameObject:
   m_Component:
   - component: {fileID: 709655355}
   - component: {fileID: 709655354}
-  - component: {fileID: 709655353}
-  - component: {fileID: 709655352}
-  - component: {fileID: 709655351}
-  - component: {fileID: 709655350}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -501,71 +497,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &709655350
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 709655349}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0191e3b4ee9525e4b80852049478b2ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BattleSystem
-  battleUI: {fileID: 0}
-  statusText: {fileID: 0}
-  playerHPText: {fileID: 0}
-  enemyHPText: {fileID: 0}
-  attackButton: {fileID: 0}
-  healButton: {fileID: 0}
-  playerHP: 100
-  enemyHP: 80
---- !u!114 &709655351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 709655349}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87b69b41286962641be57ddbcf41258f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyCollision
---- !u!114 &709655352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 709655349}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8dc1adcec7209f45b8b27ca4692b123, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
---- !u!65 &709655353
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 709655349}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.47, y: 0.74, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!212 &709655354
 SpriteRenderer:
   serializedVersion: 2
@@ -1216,7 +1147,6 @@ GameObject:
   - component: {fileID: 1068374957}
   - component: {fileID: 1068374956}
   - component: {fileID: 1068374955}
-  - component: {fileID: 1068374954}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1224,19 +1154,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1068374954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1068374953}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dac1c99d153d9c24bb0691ec2ccd2137, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  speed: 5
 --- !u!61 &1068374955
 BoxCollider2D:
   m_ObjectHideFlags: 0

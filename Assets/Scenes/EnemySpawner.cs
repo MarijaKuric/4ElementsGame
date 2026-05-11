@@ -3,51 +3,93 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
 
-    public GameObject enemyPrefab;
-    public int minEnemies = 1;
-    public int maxEnemies = 5;
+    [Header("Enemy Prefabs")]
+    public GameObject enemyPrefabLow;
+    public GameObject enemyPrefabMid;
+    public GameObject enemyPrefabHigh;
+    public GameObject bossPrefab;
 
+    [Header("Enemy Spawn Counts")]
+    public int lowCount = 1;
+    public int midCount = 1;
+    public int highCount = 1;
+
+    [Header ("Enemy Spawn Area")]
     public Vector2 SpawnAreaMin = new Vector2(-18, -10);
     public Vector2 SpawnAreaMax = new Vector2(19, 0);
 
+    [Header("Timing Spawn")]
     //prikazano u inspectoru za lakse mjenjanje
-    public float firstSpawnDelay = 10f;
-    public float AfterBattleSpawnDelay = 3f;
+    public float firstSpawnDelay = 5f;
 
     void Start()
     {
-        
-        //gameObject.SetActive(false);           // neprijatelj nevidljiv na početku
-        //Invoke("ShowEnemy", 10f);              // pojavi se nakon 10 sekundi
+        // handle vracanje iz bitke
+        if(GameState.currentEnemy != null){
 
-        if(GameState.justFinishedBattle){ 
-            // vracanje is battle-a, spawnanje novih enemy-a
-            GameState.justFinishedBattle = false;
-            Invoke("SpawnEnemies", AfterBattleSpawnDelay);
-        }else{ 
-            // fresh pocetak, cekanje 10 sekundi prije spawn-a
-            Invoke("SpawnEnemies", firstSpawnDelay);
+            if(GameState.playerWonLastBattle){ 
+            GameState.activeEnemies.Remove(GameState.currentEnemy);
+            Destroy(GameState.currentEnemy);
+
+            // provjera ako su svi enemy porazeni spawn-aj boss-a
+            if(GameState.activeEnemies.Count == 0 && !GameState.bossSpawned){
+                SpawnBoss();
+            }else if (GameState.activeEnemies.Count == 0 && GameState.bossSpawned){ 
+                GameState.bossDefeated = true;
+            }
+        }else{
+            //ako je player pobjego ili izgubio vrati enemy
+            GameState.currentEnemy.SetActive(true);
+        }
+        GameState.currentEnemy = null;
+        }
+        GameState.justFinishedBattle = false;
+
+        if(!GameState.initialSpawnDone){
+            Invoke("SpawnInitialEnemies", firstSpawnDelay);
         }
     }
 
-    public void SpawnEnemies(){
-        int count = Random.Range(minEnemies, maxEnemies + 1);
+    void SpawnInitialEnemies(){
+        SpawnGroup(enemyPrefabLow, lowCount);
+        SpawnGroup(enemyPrefabMid, midCount);
+        SpawnGroup(enemyPrefabHigh, highCount);
+        
+        GameState.initialSpawnDone = true;
+        Debug.Log("Spawned " + GameState.activeEnemies.Count + " enemies");
+    }
+
+    void SpawnGroup(GameObject prefab, int count){
+        if(prefab == null) return;
 
         for(int i = 0; i < count; i++){
-            //coordinate za spawn enemy-a
             float x = Random.Range(SpawnAreaMin.x, SpawnAreaMax.x);
             float y = Random.Range(SpawnAreaMin.y, SpawnAreaMax.y);
-
             Vector3 spawnPosition = new Vector3(x, y, 0);
-            Debug.Log("Spawning enemy at " + spawnPosition);
 
-            Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+            GameObject newEnemy = Instantiate(prefab, spawnPosition, Quaternion.identity); //Quaternion.identity (objekt se spawna u default direkciji 0,0,0)
+            DontDestroyOnLoad(newEnemy);
+            GameState.activeEnemies.Add(newEnemy);
         }
-        Debug.Log("Spawned " + count + " enemies");
     }
 
-    void ShowEnemy()
+     void SpawnBoss()
     {
-        gameObject.SetActive(true);
+        if (bossPrefab == null)
+        {
+            Debug.LogWarning("Boss prefab not assigned!");
+            return;
+        }
+        
+        float x = Random.Range(SpawnAreaMin.x, SpawnAreaMax.x);
+        float y = Random.Range(SpawnAreaMin.y, SpawnAreaMax.y);
+        Vector3 spawnPosition = new Vector3(x, y, 0);
+        
+        GameObject boss = Instantiate(bossPrefab, spawnPosition, Quaternion.identity);
+        DontDestroyOnLoad(boss);
+        GameState.activeEnemies.Add(boss);
+        GameState.bossSpawned = true;
+        
+        Debug.Log("Boss has appeared!");
     }
 }

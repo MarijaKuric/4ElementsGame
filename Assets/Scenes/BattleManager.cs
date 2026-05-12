@@ -130,7 +130,7 @@ public class BattleManager : MonoBehaviour
     }
 
     void GoBack() {
-        GameState.justFinishedBattle = true;
+        GameState.playerWonLastBattle = true;
         SceneManager.LoadScene("ExplorationScene");
      }
 

@@ -26,6 +26,8 @@ public class BattleManager : MonoBehaviour
     int maxEnemyHP;
     bool playerTurn = true;
     bool battleOver = false;
+
+    int attackCounter = 0;
     Animator fireAnimator;
     Animator explosionAnimator;
     Animator doorsOpen;
@@ -52,6 +54,13 @@ public class BattleManager : MonoBehaviour
         if (!playerTurn || battleOver) return;
         int dmg = Random.Range(10, 25);
         enemyHP = Mathf.Max(enemyHP - dmg, 0);
+        if (attackCounter >= 3)
+        {
+        int bonusDmg = 15; 
+        dmg += bonusDmg;
+        attackMessage = "<color=yellow>CRITICAL HIT! </color>";
+        attackCounter = 0;
+        }
         if (fireEffect != null)
         {
             fireEffect.SetActive(true);

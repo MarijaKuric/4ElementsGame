@@ -27,7 +27,6 @@ public class BattleManager : MonoBehaviour
     bool playerTurn = true;
     bool battleOver = false;
 
-    int attackCounter = 0;
     Animator fireAnimator;
     Animator explosionAnimator;
     Animator doorsOpen;
@@ -52,6 +51,7 @@ public class BattleManager : MonoBehaviour
     public void PlayerAttack()
     {
         if (!playerTurn || battleOver) return;
+        int attackCounter = 0;
         int dmg = Random.Range(10, 25);
         enemyHP = Mathf.Max(enemyHP - dmg, 0);
         string attackMessage = "";

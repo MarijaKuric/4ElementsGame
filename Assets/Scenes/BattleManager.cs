@@ -28,6 +28,7 @@ public class BattleManager : MonoBehaviour
     bool battleOver = false;
     Animator fireAnimator;
     Animator explosionAnimator;
+    Animator doorsOpen;
 
     void Start() {
         maxPlayerHP = playerHP;

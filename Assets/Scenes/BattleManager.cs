@@ -54,6 +54,7 @@ public class BattleManager : MonoBehaviour
         if (!playerTurn || battleOver) return;
         int dmg = Random.Range(10, 25);
         enemyHP = Mathf.Max(enemyHP - dmg, 0);
+        string attackMessage = "";
         if (attackCounter >= 3)
         {
         int bonusDmg = 15; 

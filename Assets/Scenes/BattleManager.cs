@@ -26,6 +26,8 @@ public class BattleManager : MonoBehaviour
     int maxEnemyHP;
     bool playerTurn = true;
     bool battleOver = false;
+    
+    int attackCounter = 0;
     Animator fireAnimator;
     Animator explosionAnimator;
     Animator doorsOpen;
@@ -50,18 +52,15 @@ public class BattleManager : MonoBehaviour
     public void PlayerAttack()
     {
         if (!playerTurn || battleOver) return;
-        int attackCounter = 0;
         attackCounter++;
         int dmg = Random.Range(10, 25);
     
         string attackMessage = "";
         if (attackCounter >= 3)
         {
-            int bonusDmg = 15; 
-            dmg += bonusDmg;
+            dmg += 15;
             attackMessage = "<color=yellow>CRITICAL HIT! </color>";
             attackCounter = 0;
-            Debug.Log("Kritični pogodak se aktivirao!");
         }
         enemyHP = Mathf.Max(enemyHP - dmg, 0);
 

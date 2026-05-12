@@ -61,9 +61,10 @@ public class BattleManager : MonoBehaviour
             dmg += bonusDmg;
             attackMessage = "<color=yellow>CRITICAL HIT! </color>";
             attackCounter = 0;
+            Debug.Log("Kritični pogodak se aktivirao!");
         }
         enemyHP = Mathf.Max(enemyHP - dmg, 0);
-        
+
         if (fireEffect != null)
         {
             fireEffect.SetActive(true);

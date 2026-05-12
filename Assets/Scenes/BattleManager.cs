@@ -67,7 +67,7 @@ public class BattleManager : MonoBehaviour
             fireAnimator.SetTrigger("FireAttack");
             StartCoroutine(MoveFireEffect());
         }
-        statusText.text = "Napao si za <color=red>-" + dmg + "</color> štete!";
+        statusText.text = attackMessage + "Napao si za <color=red>-" + dmg + "</color> štete!";
         playerTurn = false;
         UpdateUI();
 

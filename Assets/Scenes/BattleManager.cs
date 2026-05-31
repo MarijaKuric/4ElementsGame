@@ -4,7 +4,11 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 
-
+public class Ability
+{
+    public string name;
+    public string description;
+}
 
 public class BattleManager : MonoBehaviour
 {
@@ -31,6 +35,11 @@ public class BattleManager : MonoBehaviour
     Animator fireAnimator;
     Animator explosionAnimator;
     Animator doorsOpen;
+
+    private Ability[] currentChoices = new Ability[10];
+    public GameObject abilityPanel;
+    public TMP_Text[] abilityTexts;
+    public Ability[] allPossibleAbilities;
 
     void Start() {
         maxPlayerHP = playerHP;
@@ -106,7 +115,7 @@ public class BattleManager : MonoBehaviour
             statusText.text = "Pobijedio si!"; 
             battleOver = true;
             CancelInvoke();
-            Invoke("GoBack", 2f); 
+            Invoke("ShowAbilityRewards", 2f);
             return true;
             }
         if (playerHP <= 0) { 
@@ -143,6 +152,53 @@ public class BattleManager : MonoBehaviour
             yield return new WaitForSeconds(explosionDuration);
             explosionEffect.SetActive(false);
         }
+    }
+void ShowAbilityRewards()
+    {
+        if (allPossibleAbilities.Length < 10)
+        {
+            GoBack();
+            return;
+        }
+        abilityPanel.SetActive(true);
+        int[] chosenIndices = new int[3] { -1, -1, -1 };
+
+        for (int i = 0; i < 3; i++)
+        {
+            int randomIndex;
+            bool isDuplicate;
+            do
+            {
+                randomIndex = Random.Range(0, allPossibleAbilities.Length);
+                isDuplicate = false;
+                for (int j = 0; j < i; j++)
+                {
+                    if (chosenIndices[j] == randomIndex)
+                    {
+                        isDuplicate = true;
+                        break;
+                    }
+                }
+            } while (isDuplicate);
+
+            chosenIndices[i] = randomIndex;
+            currentChoices[i] = allPossibleAbilities[randomIndex];
+            abilityTexts[i].text = $"Moć: {currentChoices[i].name},Opis: {currentChoices[i].description}";
+        }
+    }
+    public void SelectAbility(int index)
+    {
+        Ability chosen = currentChoices[index];
+        Debug.Log("Odabrana moć: " + chosen.name);
+        if (chosen.name == "Opcija 1")
+        {}
+        else if (chosen.name == "Opcija 2 ")
+        {}
+        else if (chosen.name == "opcija 3")
+        {}
+
+        abilityPanel.SetActive(false);
+        GoBack();
     }
 
     void GoBack() {

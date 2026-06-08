@@ -67,9 +67,7 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-<<<<<<< HEAD
-    "4ElementsGame-main.slnx=======dotnet.defaultSolution": "4ElementsGame.slnx>>>>>>>56b70a412bf0d4a31096a838ebf3297cd989086f",
-=======
->>>>>>> 56b70a412bf0d4a31096a838ebf3297cd989086f
+    "<<<<<<<HEAD4ElementsGame-main.slnx=======dotnet.defaultSolution": "4ElementsGame.slnx>>>>>>>56b70a412bf0d4a31096a838ebf3297cd989086f",
+    "=======>>>>>>>56b70a412bf0d4a31096a838ebf3297cd989086fdotnet.defaultSolution": "4ElementsGame.slnx",
     "dotnet.defaultSolution": "4ElementsGame.slnx"
 }

@@ -4,10 +4,15 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 
+
 public class Ability
 {
     public string name;
     public string description;
+    public AbilityType type;
+    public Element element;
+    public int energyCost;
+    [Range(1, 3)] public int rarity;
 }
 
 public class BattleManager : MonoBehaviour
@@ -36,10 +41,12 @@ public class BattleManager : MonoBehaviour
     Animator explosionAnimator;
     Animator doorsOpen;
 
-    private Ability[] currentChoices = new Ability[10];
+
     public GameObject abilityPanel;
+    public GameObject inventoryPanel;
     public TMP_Text[] abilityTexts;
     public Ability[] allPossibleAbilities;
+    public GameObject[] inventorySlots;
 
     void Start() {
         maxPlayerHP = playerHP;
@@ -54,6 +61,10 @@ public class BattleManager : MonoBehaviour
             explosionAnimator = explosionEffect.GetComponent<Animator>();
             explosionEffect.SetActive(false);
         }
+
+        if (abilityPanel != null) abilityPanel.SetActive(false);
+        if (inventoryPanel != null) inventoryPanel.SetActive(false);
+
         statusText.text = "Ulazis u bitku";
         UpdateUI();
         }
@@ -153,57 +164,102 @@ public class BattleManager : MonoBehaviour
             explosionEffect.SetActive(false);
         }
     }
-void ShowAbilityRewards()
+    void ShowAbilityRewards()
     {
-        if (allPossibleAbilities.Length < 10)
-        {
-            GoBack();
-            return;
-        }
         abilityPanel.SetActive(true);
         int[] chosenIndices = new int[3] { -1, -1, -1 };
 
         for (int i = 0; i < 3; i++)
         {
+            Ability chosen;
             int randomIndex;
             bool isDuplicate;
             do
             {
-                randomIndex = Random.Range(0, allPossibleAbilities.Length);
+                chosen = GetRandomAbility();
+                randomIndex = System.Array.IndexOf(allPossibleAbilities, chosen);
                 isDuplicate = false;
-                for (int j = 0; j < i; j++)
-                {
-                    if (chosenIndices[j] == randomIndex)
-                    {
-                        isDuplicate = true;
-                        break;
-                    }
-                }
+                for (int j = 0; j < i; j++) { if (chosenIndices[j] == randomIndex) { isDuplicate = true; break; } }
             } while (isDuplicate);
+
             chosenIndices[i] = randomIndex;
-            currentChoices[i] = allPossibleAbilities[randomIndex];
-            abilityTexts[i].text = $"Moć: {currentChoices[i].name},Opis: {currentChoices[i].description}";
+            abilityTexts[i].text = $"Moć: {chosen.name}\n{chosen.description}";
         }
     }
+
+    Ability GetRandomAbility()
+    {
+        int attempts = 0;
+        while (attempts < 100)
+        {
+            Ability a = allPossibleAbilities[Random.Range(0, allPossibleAbilities.Length)];
+            if (InventoryManager.Instance.HasElement(a.element) && Random.Range(1, 4) <= a.rarity) return a;
+            attempts++;
+        }
+        return allPossibleAbilities[0];
+    }
+
     public void SelectAbility(int index)
     {
-        Ability chosen = currentChoices[index];
-        Debug.Log("Odabrana moć: " + chosen.name);
-        if (chosen.name == "Opcija 1")
-        {}
-        else if (chosen.name == "Opcija 2 ")
-        {}
-        else if (chosen.name == "opcija 3")
-        {}
-
+        string name = abilityTexts[index].text.Split('\n')[0].Replace("Moć: ", "").Trim();
+        Ability chosen = System.Array.Find(allPossibleAbilities, a => a.name == name);
+        InventoryManager.Instance.AddAbility(chosen);
         abilityPanel.SetActive(false);
         GoBack();
     }
 
+    public void UseAbility(int index)
+    {
+        Ability a = InventoryManager.Instance.playerInventory[index];
+        if (a == null) return;
+
+        if (a.type == AbilityType.Special && currentEnergy < a.energyCost)
+        {
+            statusText.text = "Nedovoljno energije za ability!";
+            return;
+        }
+
+        if (a.type == AbilityType.Special) currentEnergy -= a.energyCost;
+        statusText.text = "Koristis: " + a.name;
+        ToggleInventory();
+        UpdateUI();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            ToggleInventory();
+        }
+    }
+    public void ToggleInventory()
+    {
+        if (inventoryPanel != null)
+        {
+            inventoryPanel.SetActive(!inventoryPanel.activeSelf);
+            if (inventoryPanel.activeSelf) UpdateInventoryUI();
+        }
+    }
+
+    void UpdateInventoryUI()
+    {
+        for (int i = 0; i < inventorySlots.Length; i++)
+        {
+            Ability a = InventoryManager.Instance.playerInventory[i];
+            if (a != null)
+            {
+                inventorySlots[i].SetActive(true);
+                inventorySlots[i].GetComponentInChildren<TMP_Text>().text = a.name;
+            }
+            else { inventorySlots[i].SetActive(false); }
+        }
+    }
+    
+
     void GoBack() {
         GameState.playerWonLastBattle = true;
         SceneManager.LoadScene("ExplorationScene");
-     }
+    }
 
     void UpdateUI()
     {

@@ -271,7 +271,7 @@ public class BattleManager : MonoBehaviour
 
     void GoBack() {
         GameState.playerWonLastBattle = true;
-        SceneManager.LoadScene("ExplorationScene");
+        SceneManager.LoadScene("Level1");
     }
 
     void UpdateUI()

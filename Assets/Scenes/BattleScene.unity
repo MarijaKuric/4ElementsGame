@@ -338,7 +338,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 21551083}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 729599324}
+        m_TargetAssemblyTypeName: BattleManager, Assembly-CSharp
+        m_MethodName: SelectAbility
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &21551083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -812,9 +824,12 @@ MonoBehaviour:
   enemySpriteRenderer: {fileID: 709655354}
   fireTravelDuration: 1
   explosionDuration: 3.5
-  abilityPanel: {fileID: 0}
+  abilityPanel: {fileID: 636758031}
   inventoryPanel: {fileID: 0}
-  abilityTexts: []
+  abilityTexts:
+  - {fileID: 2053525080}
+  - {fileID: 1543890062}
+  - {fileID: 1676870861}
   allPossibleAbilities: []
   inventorySlots: []
 --- !u!4 &729599325
@@ -2043,7 +2058,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1434395254}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 729599324}
+        m_TargetAssemblyTypeName: BattleManager, Assembly-CSharp
+        m_MethodName: SelectAbility
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1434395254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2164,7 +2191,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1453758422}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 729599324}
+        m_TargetAssemblyTypeName: BattleManager, Assembly-CSharp
+        m_MethodName: SelectAbility
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1453758422
 MonoBehaviour:
   m_ObjectHideFlags: 0

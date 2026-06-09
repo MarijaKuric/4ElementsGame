@@ -10,9 +10,9 @@ public class EnemySpawner : MonoBehaviour
     public GameObject bossPrefab;
 
     [Header("Enemy Spawn Counts")]
-    public int lowCount = 1;
-    public int midCount = 1;
-    public int highCount = 1;
+    public int lowCount = 2;
+    public int midCount = 2;
+    public int highCount = 2;
 
     [Header ("Enemy Spawn Area")]
     public Vector2 SpawnAreaMin = new Vector2(-18, -10);

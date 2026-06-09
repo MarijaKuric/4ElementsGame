@@ -5,6 +5,10 @@ using System.Collections;
 
 
 
+public enum AbilityType { Basic, Special, Passive }
+public enum Element { Neutral, Fire, Water, Wind }
+
+[System.Serializable]
 public class Ability
 {
     public string name;
@@ -28,6 +32,7 @@ public class BattleManager : MonoBehaviour
     public GameObject explosionEffect;
     public Transform playerTransform;
     public Transform enemyTransform;
+    public SpriteRenderer enemySpriteRenderer;
     public float fireTravelDuration = 1.0f;
     public float explosionDuration = 3.5f;
 
@@ -49,6 +54,10 @@ public class BattleManager : MonoBehaviour
     public GameObject[] inventorySlots;
 
     void Start() {
+        if (enemySpriteRenderer != null && GameState.currentEnemySprite != null)
+        enemySpriteRenderer.sprite = GameState.currentEnemySprite;
+
+        enemyHP = GameState.currentEnemyHP;
         maxPlayerHP = playerHP;
         maxEnemyHP = enemyHP;
         if (fireEffect != null)
@@ -112,7 +121,7 @@ public class BattleManager : MonoBehaviour
     void EnemyTurn()
     {
         if(battleOver) return;
-        int dmg = Random.Range(8, 18);
+        int dmg = Random.Range(GameState.currentEnemyDamageMin, GameState.currentEnemyDamageMax);
         playerHP = Mathf.Max(playerHP - dmg, 0);
         statusText.text = "Neprijatelj napao za <color=red>-" + dmg + "</color>!";
         playerTurn = true;
@@ -203,7 +212,11 @@ public class BattleManager : MonoBehaviour
     {
         string name = abilityTexts[index].text.Split('\n')[0].Replace("Moć: ", "").Trim();
         Ability chosen = System.Array.Find(allPossibleAbilities, a => a.name == name);
+        
         InventoryManager.Instance.AddAbility(chosen);
+        if (GameState.currentEnemyIsBoss){
+            InventoryManager.Instance.UnlockElement(GameState.currentBossElement);
+        }
         abilityPanel.SetActive(false);
         GoBack();
     }
@@ -213,13 +226,13 @@ public class BattleManager : MonoBehaviour
         Ability a = InventoryManager.Instance.playerInventory[index];
         if (a == null) return;
 
-        if (a.type == AbilityType.Special && currentEnergy < a.energyCost)
+        if (a.type == AbilityType.Special && GameState.currentEnergy < a.energyCost)
         {
             statusText.text = "Nedovoljno energije za ability!";
             return;
         }
 
-        if (a.type == AbilityType.Special) currentEnergy -= a.energyCost;
+        if (a.type == AbilityType.Special) GameState.currentEnergy -= a.energyCost;
         statusText.text = "Koristis: " + a.name;
         ToggleInventory();
         UpdateUI();

@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 2887783832573291769}
   - component: {fileID: 3508818129031028155}
   - component: {fileID: 4699568129904183018}
+  - component: {fileID: 2005542417526629559}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: EnemyEasyNeutral
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -179,3 +180,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87b69b41286962641be57ddbcf41258f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCollision
+--- !u!114 &2005542417526629559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2379101656091519479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d31d4c75a5408ed4ba99aa3bea78dfd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
+  hp: 40
+  damageMin: 5
+  damageMax: 10
+  element: 0
+  isBoss: 0

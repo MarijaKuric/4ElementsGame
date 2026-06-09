@@ -13,7 +13,12 @@ public class EnemyCollision : MonoBehaviour
                 GameState.currentEnemyHP = stats.hp;
                 GameState.currentEnemyDamageMin = stats.damageMin;
                 GameState.currentEnemyDamageMax = stats.damageMax;
+                GameState.currentBossElement = stats.element;
+                GameState.currentEnemyIsBoss = stats.isBoss;
             }
+
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
+            if (sr != null) GameState.currentEnemySprite = sr.sprite;
 
             GameState.currentEnemy = this.gameObject;
             this.gameObject.SetActive(false);

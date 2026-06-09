@@ -1,18 +1,5 @@
 using UnityEngine;
 
-public enum AbilityType { Basic, Special, Passive }
-public enum Element { Neutral, Fire, Water, Wind }
-
-public class Ability
-{
-    public string name;
-    public string description;
-    public AbilityType type;
-    public Element element;
-    public int energyCost;
-    public int rarity;
-}
-
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance;

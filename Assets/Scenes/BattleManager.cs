@@ -180,7 +180,6 @@ void ShowAbilityRewards()
                     }
                 }
             } while (isDuplicate);
-
             chosenIndices[i] = randomIndex;
             currentChoices[i] = allPossibleAbilities[randomIndex];
             abilityTexts[i].text = $"Moć: {currentChoices[i].name},Opis: {currentChoices[i].description}";

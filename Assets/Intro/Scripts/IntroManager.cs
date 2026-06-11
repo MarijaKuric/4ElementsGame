@@ -16,20 +16,19 @@ public class IntroManager : MonoBehaviour
     }
 
     IEnumerator BurnTransition()
+{
+    burnOverlay.SetActive(true);
+    float t = 0f;
+    Color c = burnImage.color;
+
+    while (t < burnDuration)
     {
-        burnOverlay.SetActive(true);
-
-        float t = 0f;
-        Color c = burnImage.color;
-
-        while (t < burnDuration)
-        {
-            t += Time.deltaTime;
-            c.a = Mathf.Clamp01(t / burnDuration);
-            burnImage.color = c;
-            yield return null;
-        }
-
-        SceneManager.LoadScene(nextScene);
+        t += Time.deltaTime;
+        c.a = Mathf.Clamp01(t / burnDuration);
+        burnImage.color = c;
+        yield return null;
     }
+
+    SceneManager.LoadScene(1); // 1 = INTRO ANIMATION in your build settings
+}
 }

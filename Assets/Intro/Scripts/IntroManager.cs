@@ -15,7 +15,7 @@ public class IntroManager : MonoBehaviour
         StartCoroutine(BurnTransition());
     }
 
-    IEnumerator BurnTransition()
+   IEnumerator BurnTransition()
 {
     burnOverlay.SetActive(true);
     float t = 0f;

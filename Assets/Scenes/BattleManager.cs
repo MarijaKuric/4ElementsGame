@@ -3,8 +3,6 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-
-
 public enum AbilityType { Basic, Special, Passive }
 public enum Element { Neutral, Fire, Water, Wind }
 
@@ -21,10 +19,8 @@ public class Ability
 
 public class BattleManager : MonoBehaviour
 {
-
     public int playerHP = 100;
     public int enemyHP = 80;
-
     public TMP_Text statusText;
     public TMP_Text playerHPText;
     public TMP_Text enemyHPText;
@@ -40,12 +36,14 @@ public class BattleManager : MonoBehaviour
     int maxEnemyHP;
     bool playerTurn = true;
     bool battleOver = false;
-    
     int attackCounter = 0;
+
+    // COOLDOWN VARIJABLE
+    private int fireAttackCooldown = 0;
+    private int healCooldown = 0;
+
     Animator fireAnimator;
     Animator explosionAnimator;
-    Animator doorsOpen;
-
 
     public GameObject abilityPanel;
     public GameObject inventoryPanel;
@@ -53,13 +51,14 @@ public class BattleManager : MonoBehaviour
     public Ability[] allPossibleAbilities;
     public GameObject[] inventorySlots;
 
-    void Start() {
+    void Start()
+    {
         if (enemySpriteRenderer != null && GameState.currentEnemySprite != null)
-        enemySpriteRenderer.sprite = GameState.currentEnemySprite;
-
+            enemySpriteRenderer.sprite = GameState.currentEnemySprite;
         enemyHP = GameState.currentEnemyHP;
         maxPlayerHP = playerHP;
         maxEnemyHP = enemyHP;
+
         if (fireEffect != null)
         {
             fireAnimator = fireEffect.GetComponent<Animator>();
@@ -70,27 +69,35 @@ public class BattleManager : MonoBehaviour
             explosionAnimator = explosionEffect.GetComponent<Animator>();
             explosionEffect.SetActive(false);
         }
-
         if (abilityPanel != null) abilityPanel.SetActive(false);
         if (inventoryPanel != null) inventoryPanel.SetActive(false);
 
         statusText.text = "Ulazis u bitku";
         UpdateUI();
-        }
+    }
 
     public void PlayerAttack()
     {
         if (!playerTurn || battleOver) return;
+
+        // COOLDOWN PROVJERA
+        if (fireAttackCooldown > 0)
+        {
+            statusText.text = "Fire Attack nije spreman još <color=orange>" + fireAttackCooldown + "</color> poteza!";
+            return;
+        }
+
         attackCounter++;
         int dmg = Random.Range(10, 25);
-    
         string attackMessage = "";
+
         if (attackCounter >= 3)
         {
             dmg += 15;
             attackMessage = "<color=yellow>CRITICAL HIT! </color>";
             attackCounter = 0;
         }
+
         enemyHP = Mathf.Max(enemyHP - dmg, 0);
 
         if (fireEffect != null)
@@ -99,28 +106,45 @@ public class BattleManager : MonoBehaviour
             fireAnimator.SetTrigger("FireAttack");
             StartCoroutine(MoveFireEffect());
         }
+
         statusText.text = attackMessage + "Napao si za <color=red>-" + dmg + "</color> štete!";
         playerTurn = false;
-        UpdateUI();
+        fireAttackCooldown = 2; // POSTAVI COOLDOWN
 
-        if(CheckWin()) return;
+        UpdateUI();
+        if (CheckWin()) return;
         Invoke("EnemyTurn", 1.2f);
     }
 
     public void PlayerHeal()
     {
         if (!playerTurn || battleOver) return;
+
+        // COOLDOWN PROVJERA
+        if (healCooldown > 0)
+        {
+            statusText.text = "Heal nije spreman još <color=orange>" + healCooldown + "</color> poteza!";
+            return;
+        }
+
         int heal = Random.Range(10, 20);
         playerHP = Mathf.Min(playerHP + heal, maxPlayerHP);
         statusText.text = "Izliječio si <color=green>+" + heal + "</color> HP!";
         playerTurn = false;
+        healCooldown = 3; // POSTAVI COOLDOWN
+
         UpdateUI();
         Invoke("EnemyTurn", 1.2f);
     }
 
     void EnemyTurn()
     {
-        if(battleOver) return;
+        if (battleOver) return;
+
+        // SMANJI COOLDOWNOVE
+        if (fireAttackCooldown > 0) fireAttackCooldown--;
+        if (healCooldown > 0) healCooldown--;
+
         int dmg = Random.Range(GameState.currentEnemyDamageMin, GameState.currentEnemyDamageMax);
         playerHP = Mathf.Max(playerHP - dmg, 0);
         statusText.text = "Neprijatelj napao za <color=red>-" + dmg + "</color>!";
@@ -131,7 +155,8 @@ public class BattleManager : MonoBehaviour
 
     bool CheckWin()
     {
-        if (enemyHP <= 0) {
+        if (enemyHP <= 0)
+        {
             statusText.text = "Pobijedio si!";
             battleOver = true;
             CancelInvoke();
@@ -141,16 +166,17 @@ public class BattleManager : MonoBehaviour
             else
                 Invoke("GoBack", 2f);
             return true;
-            }
-        if (playerHP <= 0) {
+        }
+        if (playerHP <= 0)
+        {
             statusText.text = "Izgubio si...";
             battleOver = true;
             CancelInvoke();
             GameState.playerWonLastBattle = false;
             Invoke("GoBack", 2f);
             return true;
-            }
-            return false;
+        }
+        return false;
     }
 
     IEnumerator MoveFireEffect()
@@ -178,11 +204,11 @@ public class BattleManager : MonoBehaviour
             explosionEffect.SetActive(false);
         }
     }
+
     void ShowAbilityRewards()
     {
         abilityPanel.SetActive(true);
         int[] chosenIndices = new int[3] { -1, -1, -1 };
-
         for (int i = 0; i < 3; i++)
         {
             Ability chosen;
@@ -193,9 +219,9 @@ public class BattleManager : MonoBehaviour
                 chosen = GetRandomAbility();
                 randomIndex = System.Array.IndexOf(allPossibleAbilities, chosen);
                 isDuplicate = false;
-                for (int j = 0; j < i; j++) { if (chosenIndices[j] == randomIndex) { isDuplicate = true; break; } }
+                for (int j = 0; j < i; j++)
+                    if (chosenIndices[j] == randomIndex) { isDuplicate = true; break; }
             } while (isDuplicate);
-
             chosenIndices[i] = randomIndex;
             abilityTexts[i].text = $"Moć: {chosen.name}\n{chosen.description}";
         }
@@ -217,11 +243,9 @@ public class BattleManager : MonoBehaviour
     {
         string name = abilityTexts[index].text.Split('\n')[0].Replace("Moć: ", "").Trim();
         Ability chosen = System.Array.Find(allPossibleAbilities, a => a.name == name);
-        
         InventoryManager.Instance.AddAbility(chosen);
-        if (GameState.currentEnemyIsBoss){
+        if (GameState.currentEnemyIsBoss)
             InventoryManager.Instance.UnlockElement(GameState.currentBossElement);
-        }
         abilityPanel.SetActive(false);
         GoBack();
     }
@@ -230,13 +254,11 @@ public class BattleManager : MonoBehaviour
     {
         Ability a = InventoryManager.Instance.playerInventory[index];
         if (a == null) return;
-
         if (a.type == AbilityType.Special && GameState.currentEnergy < a.energyCost)
         {
             statusText.text = "Nedovoljno energije za ability!";
             return;
         }
-
         if (a.type == AbilityType.Special) GameState.currentEnergy -= a.energyCost;
         statusText.text = "Koristis: " + a.name;
         ToggleInventory();
@@ -246,10 +268,9 @@ public class BattleManager : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
-        {
             ToggleInventory();
-        }
     }
+
     public void ToggleInventory()
     {
         if (inventoryPanel != null)
@@ -269,18 +290,18 @@ public class BattleManager : MonoBehaviour
                 inventorySlots[i].SetActive(true);
                 inventorySlots[i].GetComponentInChildren<TMP_Text>().text = a.name;
             }
-            else { inventorySlots[i].SetActive(false); }
+            else inventorySlots[i].SetActive(false);
         }
     }
-    
 
-    void GoBack() {
+    void GoBack()
+    {
         SceneManager.LoadScene("Level" + GameState.currentLevel);
     }
 
     void UpdateUI()
     {
         playerHPText.text = "Player HP: " + playerHP + "/" + maxPlayerHP;
-        enemyHPText.text  = "Enemy HP: " + enemyHP + "/" + maxEnemyHP;
+        enemyHPText.text = "Enemy HP: " + enemyHP + "/" + maxEnemyHP;
     }
 }

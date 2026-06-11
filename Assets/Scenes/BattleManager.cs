@@ -131,18 +131,23 @@ public class BattleManager : MonoBehaviour
 
     bool CheckWin()
     {
-        if (enemyHP <= 0) { 
-            statusText.text = "Pobijedio si!"; 
+        if (enemyHP <= 0) {
+            statusText.text = "Pobijedio si!";
             battleOver = true;
             CancelInvoke();
-            Invoke("ShowAbilityRewards", 2f);
+            GameState.playerWonLastBattle = true;
+            if (GameState.currentEnemyIsBoss)
+                Invoke("ShowAbilityRewards", 2f);
+            else
+                Invoke("GoBack", 2f);
             return true;
             }
-        if (playerHP <= 0) { 
-            statusText.text = "Izgubio si..."; 
+        if (playerHP <= 0) {
+            statusText.text = "Izgubio si...";
             battleOver = true;
             CancelInvoke();
-            Invoke("GoBack", 2f); 
+            GameState.playerWonLastBattle = false;
+            Invoke("GoBack", 2f);
             return true;
             }
             return false;
@@ -270,8 +275,7 @@ public class BattleManager : MonoBehaviour
     
 
     void GoBack() {
-        GameState.playerWonLastBattle = true;
-        SceneManager.LoadScene("Level1");
+        SceneManager.LoadScene("Level" + GameState.currentLevel);
     }
 
     void UpdateUI()

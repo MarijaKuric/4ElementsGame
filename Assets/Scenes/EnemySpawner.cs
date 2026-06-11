@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -34,8 +35,8 @@ public class EnemySpawner : MonoBehaviour
             // provjera ako su svi enemy porazeni spawn-aj boss-a
             if(GameState.activeEnemies.Count == 0 && !GameState.bossSpawned){
                 SpawnBoss();
-            }else if (GameState.activeEnemies.Count == 0 && GameState.bossSpawned){ 
-                GameState.bossDefeated = true;
+            }else if (GameState.activeEnemies.Count == 0 && GameState.bossSpawned){
+                LoadNextLevel();
             }
         }else{
             //ako je player pobjego ili izgubio vrati enemy
@@ -71,6 +72,19 @@ public class EnemySpawner : MonoBehaviour
             DontDestroyOnLoad(newEnemy);
             GameState.activeEnemies.Add(newEnemy);
         }
+    }
+
+    void LoadNextLevel()
+    {
+        GameState.currentLevel++;
+        GameState.initialSpawnDone = false;
+        GameState.bossSpawned = false;
+        GameState.bossDefeated = false;
+        GameState.activeEnemies.Clear();
+        GameState.currentEnemy = null;
+        Debug.Log("Boss poražen! Prelaz na Level " + GameState.currentLevel);
+        // SceneManager.LoadScene("Level" + GameState.currentLevel);
+        SceneManager.LoadScene("Level1"); // privremeno za testiranje
     }
 
      void SpawnBoss()

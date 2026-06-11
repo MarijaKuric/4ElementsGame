@@ -22,6 +22,7 @@ public static class GameState
     public static int maxEnergy = 100;
 
     // world state
+    public static int currentLevel = 1;
     public static List<GameObject> activeEnemies = new List<GameObject>();
     public static bool initialSpawnDone = false;
     public static bool bossSpawned = false;

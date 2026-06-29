@@ -23,31 +23,33 @@ public class EnemySpawner : MonoBehaviour
     //prikazano u inspectoru za lakse mjenjanje
     public float firstSpawnDelay = 5f;
 
-    void Start()
+  void Start()
     {
         // handle vracanje iz bitke
-        if(GameState.currentEnemy != null){
+        if (GameState.justFinishedBattle)
+        {
+            
+            GameState.activeEnemies.RemoveAll(item => item == null);
 
-            if(GameState.playerWonLastBattle){ 
-            GameState.activeEnemies.Remove(GameState.currentEnemy);
-            Destroy(GameState.currentEnemy);
-
-            // provjera ako su svi enemy porazeni spawn-aj boss-a
-            if(GameState.activeEnemies.Count == 0 && !GameState.bossSpawned){
+            // Provjera stanja nakon bitke
+            if (GameState.activeEnemies.Count == 0 && !GameState.bossSpawned)
+            {
                 SpawnBoss();
-            }else if (GameState.activeEnemies.Count == 0 && GameState.bossSpawned){
+            }
+            else if (GameState.activeEnemies.Count == 0 && GameState.bossSpawned && GameState.bossDefeated)
+            {
                 LoadNextLevel();
             }
-        }else{
-            //ako je player pobjego ili izgubio vrati enemy
-            GameState.currentEnemy.SetActive(true);
+            
+            GameState.justFinishedBattle = false; // Resetiraj flag
         }
-        GameState.currentEnemy = null;
-        }
-        GameState.justFinishedBattle = false;
-
-        if(!GameState.initialSpawnDone){
-            Invoke("SpawnInitialEnemies", firstSpawnDelay);
+        else
+        {
+            // spawnanje pocetnih neprijatelja
+            if (!GameState.initialSpawnDone)
+            {
+                Invoke("SpawnInitialEnemies", firstSpawnDelay);
+            }
         }
     }
 
@@ -69,7 +71,6 @@ public class EnemySpawner : MonoBehaviour
             Vector3 spawnPosition = new Vector3(x, y, 0);
 
             GameObject newEnemy = Instantiate(prefab, spawnPosition, Quaternion.identity); //Quaternion.identity (objekt se spawna u default direkciji 0,0,0)
-            DontDestroyOnLoad(newEnemy);
             GameState.activeEnemies.Add(newEnemy);
         }
     }
@@ -83,8 +84,8 @@ public class EnemySpawner : MonoBehaviour
         GameState.activeEnemies.Clear();
         GameState.currentEnemy = null;
         Debug.Log("Boss poražen! Prelaz na Level " + GameState.currentLevel);
-        // SceneManager.LoadScene("Level" + GameState.currentLevel);
-        SceneManager.LoadScene("Level1"); // privremeno za testiranje
+        SceneManager.LoadScene("Level" + GameState.currentLevel);
+        
     }
 
      void SpawnBoss()
@@ -100,7 +101,7 @@ public class EnemySpawner : MonoBehaviour
         Vector3 spawnPosition = new Vector3(x, y, 0);
         
         GameObject boss = Instantiate(bossPrefab, spawnPosition, Quaternion.identity);
-        DontDestroyOnLoad(boss);
+        
         GameState.activeEnemies.Add(boss);
         GameState.bossSpawned = true;
         

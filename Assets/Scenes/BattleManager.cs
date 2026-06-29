@@ -38,7 +38,6 @@ public class BattleManager : MonoBehaviour
     bool battleOver = false;
     int attackCounter = 0;
 
-    // COOLDOWN VARIJABLE
     private int fireAttackCooldown = 0;
     private int healCooldown = 0;
 
@@ -80,7 +79,7 @@ public class BattleManager : MonoBehaviour
     {
         if (!playerTurn || battleOver) return;
 
-        // COOLDOWN PROVJERA
+        // provjera cooldown-a
         if (fireAttackCooldown > 0)
         {
             statusText.text = "Fire Attack nije spreman još <color=orange>" + fireAttackCooldown + "</color> poteza!";
@@ -109,7 +108,7 @@ public class BattleManager : MonoBehaviour
 
         statusText.text = attackMessage + "Napao si za <color=red>-" + dmg + "</color> štete!";
         playerTurn = false;
-        fireAttackCooldown = 2; // POSTAVI COOLDOWN
+        fireAttackCooldown = 2; 
 
         UpdateUI();
         if (CheckWin()) return;
@@ -120,7 +119,7 @@ public class BattleManager : MonoBehaviour
     {
         if (!playerTurn || battleOver) return;
 
-        // COOLDOWN PROVJERA
+        // provjera cooldown-a
         if (healCooldown > 0)
         {
             statusText.text = "Heal nije spreman još <color=orange>" + healCooldown + "</color> poteza!";
@@ -131,7 +130,7 @@ public class BattleManager : MonoBehaviour
         playerHP = Mathf.Min(playerHP + heal, maxPlayerHP);
         statusText.text = "Izliječio si <color=green>+" + heal + "</color> HP!";
         playerTurn = false;
-        healCooldown = 3; // POSTAVI COOLDOWN
+        healCooldown = 3; 
 
         UpdateUI();
         Invoke("EnemyTurn", 1.2f);
@@ -141,7 +140,7 @@ public class BattleManager : MonoBehaviour
     {
         if (battleOver) return;
 
-        // SMANJI COOLDOWNOVE
+        // smanjicanje cooldown-a
         if (fireAttackCooldown > 0) fireAttackCooldown--;
         if (healCooldown > 0) healCooldown--;
 
@@ -159,7 +158,7 @@ public class BattleManager : MonoBehaviour
         {
             statusText.text = "Pobijedio si!";
             battleOver = true;
-            CancelInvoke();
+            CancelInvoke("EnemyTurn");
             GameState.playerWonLastBattle = true;
             if (GameState.currentEnemyIsBoss)
                 Invoke("ShowAbilityRewards", 2f);
@@ -207,6 +206,12 @@ public class BattleManager : MonoBehaviour
 
     void ShowAbilityRewards()
     {
+
+        if (abilityPanel == null) { Debug.LogError("abilityPanel NULL"); GoBack(); return; }
+        if (abilityTexts == null || abilityTexts.Length < 3) { Debug.LogError("abilityTexts < 3"); GoBack(); return; }
+        if (allPossibleAbilities == null || allPossibleAbilities.Length == 0) { Debug.LogError("allPossibleAbilities prazan"); GoBack(); return; }
+
+
         abilityPanel.SetActive(true);
         int[] chosenIndices = new int[3] { -1, -1, -1 };
         for (int i = 0; i < 3; i++)
@@ -228,16 +233,22 @@ public class BattleManager : MonoBehaviour
     }
 
     Ability GetRandomAbility()
+{
+    // Provjera dali je lista ability-a prazna
+    if (allPossibleAbilities == null || allPossibleAbilities.Length == 0) return null;
+
+    int attempts = 0;
+    while (attempts < 100)
     {
-        int attempts = 0;
-        while (attempts < 100)
-        {
-            Ability a = allPossibleAbilities[Random.Range(0, allPossibleAbilities.Length)];
-            if (InventoryManager.Instance.HasElement(a.element) && Random.Range(1, 4) <= a.rarity) return a;
-            attempts++;
-        }
-        return allPossibleAbilities[0];
+        Ability a = allPossibleAbilities[Random.Range(0, allPossibleAbilities.Length)];
+        // Ako uvjet nije ispunjen, pokušaj opet
+        if (InventoryManager.Instance.HasElement(a.element) && Random.Range(1, 4) <= a.rarity) 
+            return a;
+        attempts++;
     }
+    // U slicaju da se ne nade nista vracamo barem prvi elementa da ne crasha igra
+    return allPossibleAbilities[0];
+}
 
     public void SelectAbility(int index)
     {

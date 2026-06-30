@@ -3,19 +3,6 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-public enum AbilityType { Basic, Special, Passive }
-public enum Element { Neutral, Fire, Water, Wind }
-
-[System.Serializable]
-public class Ability
-{
-    public string name;
-    public string description;
-    public AbilityType type;
-    public Element element;
-    public int energyCost;
-    [Range(1, 3)] public int rarity;
-}
 
 public class BattleManager : MonoBehaviour
 {
@@ -47,7 +34,7 @@ public class BattleManager : MonoBehaviour
     public GameObject abilityPanel;
     public GameObject inventoryPanel;
     public TMP_Text[] abilityTexts;
-    public Ability[] allPossibleAbilities;
+    public AbilityData[] allPossibleAbilities;
     public GameObject[] inventorySlots;
 
     void Start()
@@ -216,7 +203,7 @@ public class BattleManager : MonoBehaviour
         int[] chosenIndices = new int[3] { -1, -1, -1 };
         for (int i = 0; i < 3; i++)
         {
-            Ability chosen;
+            AbilityData chosen;
             int randomIndex;
             bool isDuplicate;
             do
@@ -228,32 +215,29 @@ public class BattleManager : MonoBehaviour
                     if (chosenIndices[j] == randomIndex) { isDuplicate = true; break; }
             } while (isDuplicate);
             chosenIndices[i] = randomIndex;
-            abilityTexts[i].text = $"Moć: {chosen.name}\n{chosen.description}";
+            abilityTexts[i].text = $"Moć: {chosen.abilityName}\n{chosen.description}";
         }
     }
 
-    Ability GetRandomAbility()
+    AbilityData GetRandomAbility()
 {
-    // Provjera dali je lista ability-a prazna
     if (allPossibleAbilities == null || allPossibleAbilities.Length == 0) return null;
 
     int attempts = 0;
     while (attempts < 100)
     {
-        Ability a = allPossibleAbilities[Random.Range(0, allPossibleAbilities.Length)];
-        // Ako uvjet nije ispunjen, pokušaj opet
-        if (InventoryManager.Instance.HasElement(a.element) && Random.Range(1, 4) <= a.rarity) 
+        AbilityData a = allPossibleAbilities[Random.Range(0, allPossibleAbilities.Length)];
+        if (InventoryManager.Instance.HasElement(a.element) && Random.Range(1, 4) <= a.rarity)
             return a;
         attempts++;
     }
-    // U slicaju da se ne nade nista vracamo barem prvi elementa da ne crasha igra
     return allPossibleAbilities[0];
 }
 
     public void SelectAbility(int index)
     {
         string name = abilityTexts[index].text.Split('\n')[0].Replace("Moć: ", "").Trim();
-        Ability chosen = System.Array.Find(allPossibleAbilities, a => a.name == name);
+        AbilityData chosen = System.Array.Find(allPossibleAbilities, a => a.abilityName == name);
         InventoryManager.Instance.AddAbility(chosen);
         if (GameState.currentEnemyIsBoss)
             InventoryManager.Instance.UnlockElement(GameState.currentBossElement);
@@ -263,15 +247,15 @@ public class BattleManager : MonoBehaviour
 
     public void UseAbility(int index)
     {
-        Ability a = InventoryManager.Instance.playerInventory[index];
+        PlayerAbility a = InventoryManager.Instance.GetAbilityAt(index);
         if (a == null) return;
-        if (a.type == AbilityType.Special && GameState.currentEnergy < a.energyCost)
+        if (a.data.type == AbilityType.Special && GameState.currentEnergy < a.data.energyCost)
         {
             statusText.text = "Nedovoljno energije za ability!";
             return;
         }
-        if (a.type == AbilityType.Special) GameState.currentEnergy -= a.energyCost;
-        statusText.text = "Koristis: " + a.name;
+        if (a.data.type == AbilityType.Special) GameState.currentEnergy -= a.data.energyCost;
+        statusText.text = "Koristis: " + a.data.abilityName;
         ToggleInventory();
         UpdateUI();
     }
@@ -295,11 +279,12 @@ public class BattleManager : MonoBehaviour
     {
         for (int i = 0; i < inventorySlots.Length; i++)
         {
-            Ability a = InventoryManager.Instance.playerInventory[i];
+            PlayerAbility a = InventoryManager.Instance.GetAbilityAt(i);
             if (a != null)
             {
                 inventorySlots[i].SetActive(true);
-                inventorySlots[i].GetComponentInChildren<TMP_Text>().text = a.name;
+                inventorySlots[i].GetComponentInChildren<TMP_Text>().text =
+                    $"{a.data.abilityName} (Lv{a.level})";
             }
             else inventorySlots[i].SetActive(false);
         }

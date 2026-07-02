@@ -784,6 +784,71 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1001 &313100521
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2580108758562874316, guid: cb8620bf558c56343a7823a4866f50f0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -130.44691
+      objectReference: {fileID: 0}
+    - target: {fileID: 2580108758562874316, guid: cb8620bf558c56343a7823a4866f50f0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 26.4457
+      objectReference: {fileID: 0}
+    - target: {fileID: 2580108758562874316, guid: cb8620bf558c56343a7823a4866f50f0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2580108758562874316, guid: cb8620bf558c56343a7823a4866f50f0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2580108758562874316, guid: cb8620bf558c56343a7823a4866f50f0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2580108758562874316, guid: cb8620bf558c56343a7823a4866f50f0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2580108758562874316, guid: cb8620bf558c56343a7823a4866f50f0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2580108758562874316, guid: cb8620bf558c56343a7823a4866f50f0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2580108758562874316, guid: cb8620bf558c56343a7823a4866f50f0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2580108758562874316, guid: cb8620bf558c56343a7823a4866f50f0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3550032888176085053, guid: cb8620bf558c56343a7823a4866f50f0, type: 3}
+      propertyPath: battleMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: 70930d10df8109b41880c29007f82324, type: 3}
+    - target: {fileID: 3550032888176085053, guid: cb8620bf558c56343a7823a4866f50f0, type: 3}
+      propertyPath: explorationMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: 3380e50b2cacb3045b329f6c5d7ae9f7, type: 3}
+    - target: {fileID: 7124230553639472606, guid: cb8620bf558c56343a7823a4866f50f0, type: 3}
+      propertyPath: m_Name
+      value: MusicManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cb8620bf558c56343a7823a4866f50f0, type: 3}
 --- !u!1 &636758031
 GameObject:
   m_ObjectHideFlags: 0
@@ -1002,24 +1067,7 @@ MonoBehaviour:
   - {fileID: 1543890062}
   - {fileID: 1676870861}
   allPossibleAbilities:
-  - name: Vatrena Kugla
-    description: 
-    type: 0
-    element: 1
-    energyCost: 10
-    rarity: 2
-  - name: Vatreni zid
-    description: 
-    type: 0
-    element: 1
-    energyCost: 5
-    rarity: 0
-  - name: Munja
-    description: 
-    type: 1
-    element: 1
-    energyCost: 20
-    rarity: 3
+  - {fileID: 11400000, guid: 87b4a325d432c874cbd1480c685a5c2c, type: 2}
   inventorySlots:
   - {fileID: 0}
 --- !u!4 &729599325
@@ -3182,3 +3230,4 @@ SceneRoots:
   - {fileID: 1068374958}
   - {fileID: 709655355}
   - {fileID: 1226999267}
+  - {fileID: 313100521}

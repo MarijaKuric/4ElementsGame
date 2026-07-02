@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 0f708646567d11e438315e25104262f7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - explorationMusic: {fileID: 8300000, guid: 3380e50b2cacb3045b329f6c5d7ae9f7, type: 3}
+  - battleMusic: {fileID: 8300000, guid: 70930d10df8109b41880c29007f82324, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

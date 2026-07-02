@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3ef108078a04db4f9049e1082ff1679, type: 3}
   m_Name: Fireball
   m_EditorClassIdentifier: Assembly-CSharp::AbilityData
-  abilityName: 
+  abilityName: Fireball
   description: 
   type: 0
-  element: 0
-  energyCost: 0
+  element: 1
+  energyCost: 10
   rarity: 1
-  baseDamage: 0
-  damagePerLevel: 0
-  icon: {fileID: 0}
+  baseDamage: 10
+  damagePerLevel: 5
+  icon: {fileID: 21300000, guid: aabcd0adcce5e554a9f7185644d84662, type: 3}

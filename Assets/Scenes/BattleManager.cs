@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System.Collections;
@@ -30,6 +31,9 @@ public class BattleManager : MonoBehaviour
 
     Animator fireAnimator;
     Animator explosionAnimator;
+
+    public Image hpBarFill;
+    public Image energyBarFill;
 
     public GameObject abilityPanel;
     public GameObject inventoryPanel;
@@ -95,7 +99,7 @@ public class BattleManager : MonoBehaviour
 
         statusText.text = attackMessage + "Napao si za <color=red>-" + dmg + "</color> štete!";
         playerTurn = false;
-        fireAttackCooldown = 2; 
+        fireAttackCooldown = 1;
 
         UpdateUI();
         if (CheckWin()) return;
@@ -117,7 +121,7 @@ public class BattleManager : MonoBehaviour
         playerHP = Mathf.Min(playerHP + heal, maxPlayerHP);
         statusText.text = "Izliječio si <color=green>+" + heal + "</color> HP!";
         playerTurn = false;
-        healCooldown = 3; 
+        healCooldown = 2;
 
         UpdateUI();
         Invoke("EnemyTurn", 1.2f);
@@ -247,17 +251,36 @@ public class BattleManager : MonoBehaviour
 
     public void UseAbility(int index)
     {
+        if (!playerTurn || battleOver) return;
+
         PlayerAbility a = InventoryManager.Instance.GetAbilityAt(index);
-        if (a == null) return;
-        if (a.data.type == AbilityType.Special && GameState.currentEnergy < a.data.energyCost)
+        if (a == null)
         {
-            statusText.text = "Nedovoljno energije za ability!";
+            statusText.text = "Nema abilitya na tom slotu!";
             return;
         }
-        if (a.data.type == AbilityType.Special) GameState.currentEnergy -= a.data.energyCost;
-        statusText.text = "Koristis: " + a.data.abilityName;
-        ToggleInventory();
+
+        if (a.data.type == AbilityType.Special && GameState.currentEnergy < a.data.energyCost)
+        {
+            statusText.text = $"Nedovoljno energije! Trebaš <color=cyan>{a.data.energyCost}</color>, imaš <color=cyan>{GameState.currentEnergy}</color>.";
+            return;
+        }
+
+        if (a.data.type == AbilityType.Special)
+            GameState.currentEnergy -= a.data.energyCost;
+
+        int dmg = a.GetDamage();
+        enemyHP = Mathf.Max(enemyHP - dmg, 0);
+
+        statusText.text = $"<color=cyan>{a.data.abilityName}</color> napravio <color=red>-{dmg}</color> štete!";
+
+        playerTurn = false;
+        if (inventoryPanel != null && inventoryPanel.activeSelf)
+            inventoryPanel.SetActive(false);
+
         UpdateUI();
+        if (CheckWin()) return;
+        Invoke("EnemyTurn", 1.2f);
     }
 
     void Update()
@@ -299,5 +322,11 @@ public class BattleManager : MonoBehaviour
     {
         playerHPText.text = "Player HP: " + playerHP + "/" + maxPlayerHP;
         enemyHPText.text = "Enemy HP: " + enemyHP + "/" + maxEnemyHP;
+
+        if (hpBarFill != null)
+            hpBarFill.fillAmount = (float)playerHP / maxPlayerHP;
+
+        if (energyBarFill != null)
+            energyBarFill.fillAmount = (float)GameState.currentEnergy / GameState.maxEnergy;
     }
 }

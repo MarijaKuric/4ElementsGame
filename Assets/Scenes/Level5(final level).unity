@@ -244,9 +244,9 @@ MonoBehaviour:
   enemyPrefabMid: {fileID: 3560881501651834431, guid: 67377cd8b6f805440b474870d05d6980, type: 3}
   enemyPrefabHigh: {fileID: 2116365436245715833, guid: 73996d75689cf704ca6795809b40c3a0, type: 3}
   bossPrefab: {fileID: 8701790944120030013, guid: aa8e21966ebc3e140b384f053db85f76, type: 3}
-  lowCount: 1
-  midCount: 0
-  highCount: 0
+  lowCount: 2
+  midCount: 2
+  highCount: 2
   SpawnAreaMin: {x: -18, y: -10}
   SpawnAreaMax: {x: 19, y: 0}
   firstSpawnDelay: 2

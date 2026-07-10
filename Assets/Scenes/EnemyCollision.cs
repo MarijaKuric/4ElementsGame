@@ -3,9 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class EnemyCollision : MonoBehaviour
 {
-    void OnCollisionEnter2D(Collision2D col)
+    void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.CompareTag("Player"))
+        if (col.CompareTag("Player"))
         {
             EnemyStats stats = GetComponent<EnemyStats>();
 
@@ -20,7 +20,10 @@ public class EnemyCollision : MonoBehaviour
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
             if (sr != null) GameState.currentEnemySprite = sr.sprite;
 
+            Vector2 pushDir = (col.transform.position - transform.position).normalized;
+            GameState.playerReturnPosition = col.transform.position + (Vector3)(pushDir * 2f);
             GameState.currentEnemy = this.gameObject;
+            GameState.activeEnemies.Remove(this.gameObject);
             this.gameObject.SetActive(false);
 
             SceneManager.LoadScene("BattleScene");

@@ -315,15 +315,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
   enemyPrefabLow: {fileID: 2379101656091519479, guid: bfd1e189841a6db449bcf23bd46d0a8c, type: 3}
-  enemyPrefabMid: {fileID: 2379101656091519479, guid: bfd1e189841a6db449bcf23bd46d0a8c, type: 3}
-  enemyPrefabHigh: {fileID: 2379101656091519479, guid: bfd1e189841a6db449bcf23bd46d0a8c, type: 3}
-  bossPrefab: {fileID: 2379101656091519479, guid: bfd1e189841a6db449bcf23bd46d0a8c, type: 3}
-  lowCount: 2
-  midCount: 2
-  highCount: 2
+  enemyPrefabMid: {fileID: 3560881501651834431, guid: 67377cd8b6f805440b474870d05d6980, type: 3}
+  enemyPrefabHigh: {fileID: 2116365436245715833, guid: 73996d75689cf704ca6795809b40c3a0, type: 3}
+  bossPrefab: {fileID: 8701790944120030013, guid: aa8e21966ebc3e140b384f053db85f76, type: 3}
+  lowCount: 1
+  midCount: 0
+  highCount: 0
   SpawnAreaMin: {x: -18, y: -10}
   SpawnAreaMax: {x: 19, y: 0}
-  firstSpawnDelay: 5
+  firstSpawnDelay: 2
 --- !u!4 &386297422
 Transform:
   m_ObjectHideFlags: 0
@@ -22882,6 +22882,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1586868480}
   - component: {fileID: 1586868479}
+  - component: {fileID: 1586868481}
   m_Layer: 0
   m_Name: game_background_3_0
   m_TagString: Untagged
@@ -22963,6 +22964,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1586868481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586868478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7350afbc88f58cc40920037de9fa7a9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelBackground
+  backgroundSprite: {fileID: 932049351407023698, guid: 3d8358258b7fbc342bda1f710b3d9f10, type: 3}
 --- !u!1 &1881772449
 GameObject:
   m_ObjectHideFlags: 0

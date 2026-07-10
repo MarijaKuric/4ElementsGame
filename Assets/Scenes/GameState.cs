@@ -27,4 +27,7 @@ public static class GameState
     public static bool initialSpawnDone = false;
     public static bool bossSpawned = false;
     public static bool bossDefeated = false;
+    public static int enemiesRemaining = 0;
+    public static Vector3 playerReturnPosition;
+    public static Sprite currentLevelBackground;
 }

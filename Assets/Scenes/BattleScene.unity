@@ -1060,6 +1060,7 @@ MonoBehaviour:
   enemySpriteRenderer: {fileID: 709655354}
   fireTravelDuration: 1
   explosionDuration: 3.5
+  battleBackgroundRenderer: {fileID: 151230717}
   hpBarFill: {fileID: 1272881829}
   energyBarFill: {fileID: 1313577591}
   abilityPanel: {fileID: 636758031}

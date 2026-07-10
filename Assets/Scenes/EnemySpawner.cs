@@ -23,35 +23,48 @@ public class EnemySpawner : MonoBehaviour
     //prikazano u inspectoru za lakse mjenjanje
     public float firstSpawnDelay = 5f;
 
-  void Start()
+    void Start()
     {
-        // handle vracanje iz bitke
-        if (GameState.justFinishedBattle)
-        {
-            
-            GameState.activeEnemies.RemoveAll(item => item == null);
+        // sinkroniziranje levela sa scenom u kojoj se nalazimo
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName.StartsWith("Level"))
+            int.TryParse(sceneName.Replace("Level", ""), out GameState.currentLevel);
 
-            // Provjera stanja nakon bitke
-            if (GameState.activeEnemies.Count == 0 && !GameState.bossSpawned)
-            {
-                SpawnBoss();
-            }
-            else if (GameState.activeEnemies.Count == 0 && GameState.bossSpawned && GameState.bossDefeated)
-            {
-                LoadNextLevel();
-            }
-            
-            GameState.justFinishedBattle = false; // Resetiraj flag
-        }
-        else
+        // handle vracanje iz bitke
+        if (GameState.currentEnemy != null)
         {
-            // spawnanje pocetnih neprijatelja
-            if (!GameState.initialSpawnDone)
+            if (GameState.playerWonLastBattle)
             {
-                Invoke("SpawnInitialEnemies", firstSpawnDelay);
+                Destroy(GameState.currentEnemy);
+
+                // Provjera stanja nakon bitke
+                if (GameState.enemiesRemaining == 0 && !GameState.bossSpawned)
+                {
+                    SpawnBoss();
+                }
+                else if (GameState.enemiesRemaining == 0 && GameState.bossSpawned && GameState.bossDefeated)
+                {
+                    LoadNextLevel();
+                }
             }
+            else
+            {
+                // player izgubio ili pobjegao — vrati enemija
+                GameState.currentEnemy.SetActive(true);
+            }
+
+            GameState.currentEnemy = null;
+        }
+
+        GameState.justFinishedBattle = false; 
+
+        // spawnanje pocetnih neprijatelja
+        if (!GameState.initialSpawnDone)
+        {
+            Invoke("SpawnInitialEnemies", firstSpawnDelay);
         }
     }
+    
 
     void SpawnInitialEnemies(){
         SpawnGroup(enemyPrefabLow, lowCount);
@@ -59,6 +72,7 @@ public class EnemySpawner : MonoBehaviour
         SpawnGroup(enemyPrefabHigh, highCount);
         
         GameState.initialSpawnDone = true;
+        GameState.enemiesRemaining = GameState.activeEnemies.Count;
         Debug.Log("Spawned " + GameState.activeEnemies.Count + " enemies");
     }
 
@@ -71,6 +85,7 @@ public class EnemySpawner : MonoBehaviour
             Vector3 spawnPosition = new Vector3(x, y, 0);
 
             GameObject newEnemy = Instantiate(prefab, spawnPosition, Quaternion.identity); //Quaternion.identity (objekt se spawna u default direkciji 0,0,0)
+            DontDestroyOnLoad(newEnemy);
             GameState.activeEnemies.Add(newEnemy);
         }
     }
@@ -82,6 +97,7 @@ public class EnemySpawner : MonoBehaviour
         GameState.bossSpawned = false;
         GameState.bossDefeated = false;
         GameState.activeEnemies.Clear();
+        GameState.enemiesRemaining = 0;
         GameState.currentEnemy = null;
         Debug.Log("Boss poražen! Prelaz na Level " + GameState.currentLevel);
         SceneManager.LoadScene("Level" + GameState.currentLevel);
@@ -102,6 +118,7 @@ public class EnemySpawner : MonoBehaviour
         
         GameObject boss = Instantiate(bossPrefab, spawnPosition, Quaternion.identity);
         
+        DontDestroyOnLoad(boss);
         GameState.activeEnemies.Add(boss);
         GameState.bossSpawned = true;
         

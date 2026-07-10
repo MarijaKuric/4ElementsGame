@@ -12054,10 +12054,10 @@ MonoBehaviour:
   enemyPrefabHigh: {fileID: 2116365436245715833, guid: 73996d75689cf704ca6795809b40c3a0, type: 3}
   bossPrefab: {fileID: 8701790944120030013, guid: aa8e21966ebc3e140b384f053db85f76, type: 3}
   lowCount: 1
-  midCount: 0
-  highCount: 0
+  midCount: 1
+  highCount: 1
   SpawnAreaMin: {x: -18, y: -10}
-  SpawnAreaMax: {x: 19, y: 0}
+  SpawnAreaMax: {x: 17, y: 0}
   firstSpawnDelay: 2
 --- !u!1 &882219261
 GameObject:
@@ -13511,6 +13511,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1522780494}
   - component: {fileID: 1522780493}
+  - component: {fileID: 1522780495}
   m_Layer: 0
   m_Name: game_background_1_0
   m_TagString: Untagged
@@ -13592,6 +13593,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1522780495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522780492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7350afbc88f58cc40920037de9fa7a9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelBackground
+  backgroundSprite: {fileID: -49940909611958881, guid: 0186d65f6bca7493199cbb7d43b2c8c4, type: 3}
 --- !u!1 &1685892730
 GameObject:
   m_ObjectHideFlags: 0
@@ -13621,91 +13635,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5f83d4662545a2448ba6a3836528ab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
-  playerInventory:
-  - name: 
-    description: 
-    type: 0
-    element: 0
-    energyCost: 0
-    rarity: 0
-  - name: 
-    description: 
-    type: 0
-    element: 0
-    energyCost: 0
-    rarity: 0
-  - name: 
-    description: 
-    type: 0
-    element: 0
-    energyCost: 0
-    rarity: 0
-  - name: 
-    description: 
-    type: 0
-    element: 0
-    energyCost: 0
-    rarity: 0
-  - name: 
-    description: 
-    type: 0
-    element: 0
-    energyCost: 0
-    rarity: 0
-  - name: 
-    description: 
-    type: 0
-    element: 0
-    energyCost: 0
-    rarity: 0
-  - name: 
-    description: 
-    type: 0
-    element: 0
-    energyCost: 0
-    rarity: 0
-  - name: 
-    description: 
-    type: 0
-    element: 0
-    energyCost: 0
-    rarity: 0
-  - name: 
-    description: 
-    type: 0
-    element: 0
-    energyCost: 0
-    rarity: 0
-  - name: 
-    description: 
-    type: 0
-    element: 0
-    energyCost: 0
-    rarity: 0
-  - name: 
-    description: 
-    type: 0
-    element: 0
-    energyCost: 0
-    rarity: 0
-  - name: 
-    description: 
-    type: 0
-    element: 0
-    energyCost: 0
-    rarity: 0
-  - name: 
-    description: 
-    type: 0
-    element: 0
-    energyCost: 0
-    rarity: 0
-  - name: 
-    description: 
-    type: 0
-    element: 0
-    energyCost: 0
-    rarity: 0
+  allAbilities: []
+  activeDeck: []
   unlockedElements: 0000000000000000000000000000000000000000
 --- !u!4 &1685892732
 Transform:

@@ -19,6 +19,7 @@ public class BattleManager : MonoBehaviour
     public SpriteRenderer enemySpriteRenderer;
     public float fireTravelDuration = 1.0f;
     public float explosionDuration = 3.5f;
+    public SpriteRenderer battleBackgroundRenderer;
 
     int maxPlayerHP;
     int maxEnemyHP;
@@ -43,6 +44,12 @@ public class BattleManager : MonoBehaviour
 
     void Start()
     {
+        if (enemySpriteRenderer != null && GameState.currentEnemySprite != null)
+        enemySpriteRenderer.sprite = GameState.currentEnemySprite;
+
+        if (battleBackgroundRenderer != null && GameState.currentLevelBackground != null)
+        battleBackgroundRenderer.sprite = GameState.currentLevelBackground;
+
         if (enemySpriteRenderer != null && GameState.currentEnemySprite != null)
             enemySpriteRenderer.sprite = GameState.currentEnemySprite;
         enemyHP = GameState.currentEnemyHP;
@@ -151,10 +158,14 @@ public class BattleManager : MonoBehaviour
             battleOver = true;
             CancelInvoke("EnemyTurn");
             GameState.playerWonLastBattle = true;
-            if (GameState.currentEnemyIsBoss)
+            GameState.justFinishedBattle = true;
+            if (GameState.currentEnemyIsBoss){
+                GameState.bossDefeated = true;
                 Invoke("ShowAbilityRewards", 2f);
-            else
+            }else{
+                GameState.enemiesRemaining--;
                 Invoke("GoBack", 2f);
+            }
             return true;
         }
         if (playerHP <= 0)
@@ -163,6 +174,7 @@ public class BattleManager : MonoBehaviour
             battleOver = true;
             CancelInvoke();
             GameState.playerWonLastBattle = false;
+            GameState.justFinishedBattle = true;
             Invoke("GoBack", 2f);
             return true;
         }
@@ -210,13 +222,25 @@ public class BattleManager : MonoBehaviour
             AbilityData chosen;
             int randomIndex;
             bool isDuplicate;
+            int safetyCounter = 0;
+
             do
             {
                 chosen = GetRandomAbility();
                 randomIndex = System.Array.IndexOf(allPossibleAbilities, chosen);
                 isDuplicate = false;
-                for (int j = 0; j < i; j++)
+                for (int j = 0; j < i; j++){
                     if (chosenIndices[j] == randomIndex) { isDuplicate = true; break; }
+                }
+
+            safetyCounter++;
+            if (safetyCounter > 200)
+            
+            {
+                Debug.LogWarning("Nema dovoljno unique abilitya za sve 3 nagrade, koristim fallback.");
+                break;
+            }
+
             } while (isDuplicate);
             chosenIndices[i] = randomIndex;
             abilityTexts[i].text = $"Moć: {chosen.abilityName}\n{chosen.description}";

@@ -20,7 +20,9 @@ public class PlayerAbility
 
     public int GetDamage() => data.baseDamage + data.damagePerLevel * (level - 1);
 
-    // Vraca true ako je doslo do level up-a
+    public int GetPassiveValue() => data.passiveValue + data.passiveValuePerLevel * (level - 1);
+
+    public float GetPassiveChance() => Mathf.Clamp01(data.passiveChance + 0.02f * (level - 1));
     public bool AddXP(int amount)
     {
         if (level >= MaxLevel) return false;

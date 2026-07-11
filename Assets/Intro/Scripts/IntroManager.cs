@@ -18,6 +18,7 @@ public class IntroManager : MonoBehaviour
    IEnumerator BurnTransition()
 {
     burnOverlay.SetActive(true);
+    burnOverlay.transform.SetAsLastSibling(); // draw on top of StartButton so it fades out too
     float t = 0f;
     Color c = burnImage.color;
 

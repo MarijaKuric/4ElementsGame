@@ -51,7 +51,7 @@ public class DijalogManager : MonoBehaviour
 
         currentLines = data.lines;
         currentIndex = 0;
-        onDijaloggComplete = onComplete;
+        onDijalogComplete = onComplete;
 
         if (dijalogPanel != null) dijalogPanel.SetActive(true);
         ShowLine();

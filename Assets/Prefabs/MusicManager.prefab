@@ -45,10 +45,10 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 3380e50b2cacb3045b329f6c5d7ae9f7, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.3
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -142,5 +142,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f708646567d11e438315e25104262f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MusicManager
-  explorationMusic: {fileID: 0}
-  battleMusic: {fileID: 0}
+  fireClips:
+  - {fileID: 8300000, guid: fe3046d0682a841e38776fd415a70f7b, type: 3}
+  - {fileID: 8300000, guid: 64584142c8672423da7e0efa3a5f0ff7, type: 3}
+  airClips:
+  - {fileID: 8300000, guid: e11e49d6c1d5a45378f19a09471fdbd6, type: 3}
+  - {fileID: 8300000, guid: 1b153be0339c24ddb9a6bae463b64330, type: 3}
+  earthClips:
+  - {fileID: 8300000, guid: 982c39010c13046919bdec459b45125a, type: 3}
+  waterClips:
+  - {fileID: 8300000, guid: b0c99ad7ca7714b279a157e9adce3b7c, type: 3}
+  finalClips: []
+  battleMusic: {fileID: 8300000, guid: 70930d10df8109b41880c29007f82324, type: 3}
+  fadeInDuration: 2
+  fadeOutDuration: 2
+  minPause: 10
+  maxPause: 15
+  musicVolume: 0.3

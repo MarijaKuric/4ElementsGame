@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public enum AbilityType { Basic, Special, Passive }
-public enum Element { Neutral, Fire, Water, Wind }
+public enum Element { Neutral, Fire, Water, Wind, Earth }
 
 public enum PassiveEffect
 {

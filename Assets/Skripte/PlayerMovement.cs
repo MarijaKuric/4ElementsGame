@@ -7,15 +7,17 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private SpriteRenderer sr;
 
+    void Awake()
+    {
+        if (GameState.justFinishedBattle)
+            transform.position = GameState.playerReturnPosition;
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
-
-        if (GameState.justFinishedBattle){
-            transform.position = GameState.playerReturnPosition;
-        }
     }
 
     void FixedUpdate()

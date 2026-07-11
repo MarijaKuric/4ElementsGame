@@ -70,10 +70,13 @@ public class EnemySpawner : MonoBehaviour
         SpawnGroup(enemyPrefabLow, lowCount);
         SpawnGroup(enemyPrefabMid, midCount);
         SpawnGroup(enemyPrefabHigh, highCount);
-        
+
         GameState.initialSpawnDone = true;
         GameState.enemiesRemaining = GameState.activeEnemies.Count;
         Debug.Log("Spawned " + GameState.activeEnemies.Count + " enemies");
+
+        if (GameState.enemiesRemaining == 0 && !GameState.bossSpawned)
+            SpawnBoss();
     }
 
     void SpawnGroup(GameObject prefab, int count){
